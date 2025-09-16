@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Prefetcher</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>LLM Model Prefetcher</h1>
+      <div class="card">
+        <div class="field">
+          <label for="repoId">Model repo (e.g. meta-llama/Llama-2-7b-hf)</label>
+          <input id="repoId" type="text" placeholder="owner/model" />
+        </div>
+        <div class="field">
+          <label for="revision">Revision (optional)</label>
+          <input id="revision" type="text" placeholder="main" />
+        </div>
+        <div class="actions">
+          <button id="btnLoadFiles">Load model files</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="field">
+          <label for="projects">Project names (comma-separated)</label>
+          <input id="projects" type="text" placeholder="projA,projB" />
+        </div>
+        <div id="filesSection" class="field hidden">
+          <div class="files-header">
+            <span>Files to prefetch</span>
+            <div class="file-actions">
+              <button id="btnSelectRecommended" class="small">Select recommended</button>
+              <button id="btnSelectAll" class="small">Select all</button>
+              <button id="btnClear" class="small">Clear</button>
+            </div>
+          </div>
+          <div id="filesList" class="files-list"></div>
+        </div>
+        <div class="actions">
+          <button id="btnPrefetch" disabled>Start prefetch</button>
+        </div>
+      </div>
+
+      <div id="statusCard" class="card hidden">
+        <div class="field">
+          <label>Status</label>
+          <div id="statusText">-</div>
+        </div>
+        <div class="progress">
+          <div id="progressBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

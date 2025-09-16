@@ -1,0 +1,8 @@
+INFO:     Started server process [4448]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:33638 - "GET /api/model-files?repo_id=bert-base-uncased HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33646 - "POST /api/prefetch HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:39514 - "POST /api/prefetch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39524 - "GET /api/status/3fe27290-38fb-4328-9460-13f7835a50ab HTTP/1.1" 200 OK
