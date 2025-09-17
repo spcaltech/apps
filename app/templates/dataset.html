@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dataset • JSON → pandas GUI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <style>
+      pre { white-space: pre-wrap; }
+      .table { font-size: 0.9rem; }
+    </style>
+  </head>
+  <body class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h3">Dataset</h1>
+      <div>
+        <a class="btn btn-outline-secondary" href="/">Upload another</a>
+        <div class="btn-group ms-2" role="group">
+          <a class="btn btn-sm btn-outline-primary" href="/dataset/{{ token }}/export?fmt=csv">Export CSV</a>
+          <a class="btn btn-sm btn-outline-primary" href="/dataset/{{ token }}/export?fmt=json">Export JSON</a>
+          <a class="btn btn-sm btn-outline-primary" href="/dataset/{{ token }}/export?fmt=parquet">Export Parquet</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Preview (first 20 rows)</h5>
+            <div class="table-responsive">{{ preview_html | safe }}</div>
+          </div>
+        </div>
+
+        {% if result_html %}
+        <div class="card mb-3 border-success">
+          <div class="card-body">
+            <h5 class="card-title">Result</h5>
+            <div class="table-responsive">{{ result_html | safe }}</div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Info</h5>
+            <p class="text-muted small mb-1">Shape: {{ shape }}</p>
+            <pre class="mb-0"><code>{{ info_text }}</code></pre>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Head</h5>
+            <form method="post" action="/dataset/{{ token }}/op/head">
+              <div class="input-group">
+                <input class="form-control" type="number" name="num_rows" value="5" min="1" max="1000" />
+                <button class="btn btn-primary" type="submit">Run</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Describe</h5>
+            <form method="post" action="/dataset/{{ token }}/op/describe">
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="include_all" id="include_all" />
+                <label class="form-check-label" for="include_all">Include non-numeric</label>
+              </div>
+              <input class="form-control mb-2" type="text" name="percentiles" placeholder="e.g. 0.1 0.5 0.9" />
+              <button class="btn btn-primary" type="submit">Run</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Select columns</h5>
+            <form method="post" action="/dataset/{{ token }}/op/select">
+              <input class="form-control mb-2" type="text" name="columns" placeholder="comma-separated (e.g. id,name,spend)" />
+              <button class="btn btn-primary" type="submit">Run</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Filter (query)</h5>
+            <form method="post" action="/dataset/{{ token }}/op/filter">
+              <input class="form-control mb-2" type="text" name="query" placeholder="age >= 30 and country == 'US'" />
+              <button class="btn btn-primary" type="submit">Run</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Group by</h5>
+            <form method="post" action="/dataset/{{ token }}/op/groupby">
+              <input class="form-control mb-2" type="text" name="by" placeholder="grouping columns, e.g. country" />
+              <textarea class="form-control mb-2" name="agg" rows="3" placeholder="one per line, e.g.&#10;spend=sum,mean&#10;age=mean"></textarea>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="keepna" id="keepna" />
+                <label class="form-check-label" for="keepna">Keep NaN groups</label>
+              </div>
+              <button class="btn btn-primary" type="submit">Run</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>
+

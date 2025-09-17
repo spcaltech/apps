@@ -1,6 +1,6 @@
-## JSON → pandas CLI
+## JSON → pandas (CLI + Web GUI)
 
-Load a JSON file into a pandas DataFrame and run common operations (info, head, describe, select, filter, groupby), with optional export to CSV/JSON/Parquet.
+Load a JSON file into a pandas DataFrame and run common operations (info, head, describe, select, filter, groupby), with optional export to CSV/JSON/Parquet. A FastAPI web GUI is also included for interactive usage.
 
 ### Setup
 
@@ -73,6 +73,24 @@ Add `--export-to` with `--export-format` (csv|json|parquet):
 ```bash
 python app/cli.py --json data/sample.json select id name --export-to out.csv --export-format csv
 ```
+
+### Web GUI
+
+Start the server:
+
+```bash
+uvicorn app.web:app --host 0.0.0.0 --port 8000
+```
+
+Open `http://127.0.0.1:8000/` and upload a JSON or JSON Lines file. Use the forms to:
+
+- **Head**: preview N rows
+- **Describe**: summary stats (optionally include non-numeric, custom percentiles)
+- **Select**: choose columns via comma-separated list
+- **Filter**: filter using `pandas.DataFrame.query` syntax
+- **Groupby**: specify grouping columns and aggregations (one per line, like `spend=sum,mean`)
+
+Use the Export buttons to download CSV/JSON/Parquet of the current result (or dataset if no result yet).
 
 ### Notes
 
