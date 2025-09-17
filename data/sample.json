@@ -1,0 +1,8 @@
+[
+  {"id": 1, "name": "Alice", "age": 30, "country": "US", "spend": 120.5},
+  {"id": 2, "name": "Bob", "age": 24, "country": "UK", "spend": 80.0},
+  {"id": 3, "name": "Carlos", "age": 35, "country": "BR", "spend": 200.75},
+  {"id": 4, "name": "Diana", "age": 28, "country": "US", "spend": 150.0},
+  {"id": 5, "name": "Eve", "age": 42, "country": "DE", "spend": 300.0},
+  {"id": 6, "name": "Farid", "age": 31, "country": "UK", "spend": 60.25}
+]
