@@ -1,3 +1,83 @@
+## JSON → pandas CLI
+
+Load a JSON file into a pandas DataFrame and run common operations (info, head, describe, select, filter, groupby), with optional export to CSV/JSON/Parquet.
+
+### Setup
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Sample data
+
+There is a small sample at `data/sample.json` (array of objects).
+
+### Usage
+
+General form:
+
+```bash
+python app/cli.py --json data/sample.json <operation> [args] [--export-to out.csv --export-format csv]
+```
+
+Operations:
+
+- **info**: Show DataFrame info
+  ```bash
+  python app/cli.py --json data/sample.json info
+  ```
+
+- **head**: First N rows
+  ```bash
+  python app/cli.py --json data/sample.json head -n 3
+  ```
+
+- **describe**: Stats (use `--all` to include non-numeric)
+  ```bash
+  python app/cli.py --json data/sample.json describe --all --percentiles 0.1 0.5 0.9
+  ```
+
+- **select**: Choose columns
+  ```bash
+  python app/cli.py --json data/sample.json select id name spend
+  ```
+
+- **filter**: Query rows (pandas.query syntax)
+  ```bash
+  python app/cli.py --json data/sample.json filter "age >= 30 and country == 'US'"
+  ```
+
+- **groupby**: Group and aggregate
+  ```bash
+  # Sum spend per country
+  python app/cli.py --json data/sample.json groupby --by country --agg spend=sum
+
+  # Multiple aggs on multiple columns
+  python app/cli.py --json data/sample.json groupby --by country --agg spend=sum,mean --agg age=mean
+  ```
+
+### JSON Lines input
+
+For JSON Lines (one object per line), pass `--lines`:
+
+```bash
+python app/cli.py --json data/events.jsonl --lines head -n 10
+```
+
+### Exporting results
+
+Add `--export-to` with `--export-format` (csv|json|parquet):
+
+```bash
+python app/cli.py --json data/sample.json select id name --export-to out.csv --export-format csv
+```
+
+### Notes
+
+- For Parquet export, `pyarrow` is required (already in requirements).
+- `filter` uses `pandas.DataFrame.query`; quote strings as in the examples.
 # Model Prefetcher
 
 A minimal web app to list files in a Hugging Face model repo and prefetch selected files into project directories. Useful for preparing assets for multiple projects.
